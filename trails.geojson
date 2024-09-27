@@ -1,0 +1,65 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "Polyline 1",
+          "oneway": "yes"
+        },
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [7.44744, 46.94809],
+            [7.45200, 46.94890],
+            [7.45700, 46.94980]
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "Polyline 2",
+          "oneway": "yes"
+        },
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [7.44744, 46.94809],
+            [7.44250, 46.95100],
+            [7.43950, 46.95500]
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "Polyline 3",
+          "oneway": "yes"
+        },
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [7.44744, 46.94809],
+            [7.45500, 46.94500],
+            [7.46000, 46.94200]
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "Polyline 4",
+          "oneway": "no"
+        },
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [7.44744, 46.94809],
+            [7.44200, 46.94500],
+            [7.43800, 46.94300]
+          ]
+        }
+      }
+    ]
+  }

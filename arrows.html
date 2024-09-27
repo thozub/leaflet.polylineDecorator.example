@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StackOverflow Question 79028922 - Trail Directions</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script src="https://unpkg.com/leaflet-polylinedecorator/dist/leaflet.polylineDecorator.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+        }
+
+        #map {
+            height: 100vh;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="map"></div>
+
+    <script>
+
+        const coordinate = [46.948056, 7.4475];
+
+        const map = L.map('map').setView(coordinate, 15);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 22,
+            // add link to attribution, omitted in this code example
+            // due to width limit, i.e., avoid horizontal scrolling
+            attribution: '&copy; OpenStreetMap',
+        }).addTo(map);
+
+        fetch('trails.geojson')
+            .then(response => response.json())
+            .then(trails => {
+
+                const trailLayer = L.geoJSON(trails, {
+                    style: (feature) => {
+                        const isOneWay = feature.properties['oneway'] == 'yes';
+                        return {
+                            color: isOneWay ? '#a14242' : '#160042',
+                        };
+                    }, 
+                }).addTo(map);
+
+                // create decorators
+                const decorators = trailLayer.getLayers()
+                    .filter(layer => layer.feature.properties['oneway'] == 'yes')
+                    .map(layer => {
+
+                        // swap lat/lon (needed as GeoJSON uses a different order)
+                        const coordinates = layer.feature.geometry.coordinates
+                            .map(c => [c[1], c[0]]);
+
+                        // create the decorator for the trail
+                        return L.polylineDecorator(L.polyline(coordinates), {
+                            patterns: [{ 
+                                offset: '5%', 
+                                repeat: '50px', 
+                                symbol: L.Symbol.arrowHead({ 
+                                    pixelSize: 10, 
+                                    polygon: false, 
+                                    pathOptions: { 
+                                        stroke: true, 
+                                        color: '#a14242' 
+                                    } 
+                                }) 
+                            }]
+                        });
+
+                    });
+
+                const featureGroup = L.featureGroup(decorators, {}).addTo(map);
+
+                map.on('zoom', event => {
+                    featureGroup.clearLayers();
+                    if (map.getZoom() >= 15) {
+                        decorators.forEach(decorator => featureGroup.addLayer(decorator));
+                    }
+                });
+
+            });
+
+    </script>
+
+</body>
+
+</html>
