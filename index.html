@@ -36,9 +36,7 @@
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 22,
-            // add link to attribution, omitted in this code example
-            // due to width limit, i.e., avoid horizontal scrolling
-            attribution: '&copy; OpenStreetMap',
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 
         fetch('trails.geojson')
